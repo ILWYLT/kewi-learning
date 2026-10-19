@@ -100,7 +100,7 @@
     --color-primary-dark: #558b2f;
     --color-secondary: #9ccc65;
     --color-accent: #ccba71;
-    --color-dark: #d7ccc8;
+    --color-dark: #eeeeee;
 }
 
 /* ========== Reset & Base ========== */
@@ -441,18 +441,6 @@ p {
 
 .btn-block {
     width: 100%;
-}
-
-.btn-toggle-enabled {
-    font-size: 34px;
-    color: var(--color-primary);
-    transform: scaleX(1.1);
-}
-
-.btn-toggle-disabled {
-    font-size: 34px;
-    color: var(--color-error);
-    transform: scaleX(1.1);
 }
 
 /* ========== Cards ========== */
@@ -993,15 +981,17 @@ p {
     align-items: center;
 }
 
-/* ========== Reading Comprehension Layout ========== */
-.reading-layout {
+/* ========== Reading and Video Comprehension Layout ========== */
+.reading-layout,
+.video-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-xl);
     min-height: 60vh;
 }
 
-.reading-passage {
+.reading-passage,
+.video-learning {
     background-color: var(--color-white);
     border-radius: var(--radius-lg);
     padding: var(--space-xl);
@@ -1012,17 +1002,20 @@ p {
     overflow-y: auto;
 }
 
-.reading-passage h3 {
+.reading-passage h3,
+.video-learning h3 {
     color: var(--color-primary);
     margin-bottom: var(--space-lg);
 }
 
-.reading-passage p {
+.reading-passage p,
+.video-learning p {
     text-align: justify;
     line-height: 1.8;
 }
 
-.reading-questions {
+.reading-questions,
+.video-questions {
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
@@ -1042,7 +1035,7 @@ p {
     margin-bottom: var(--space-sm);
 }
 
-@media (max-width: 992px) {
+@media (max-width: 768px) {
     .reading-layout {
         grid-template-columns: 1fr;
     }
@@ -1291,7 +1284,7 @@ p {
 }
 
 /* ========== Responsive Sidebar ========== */
-@media (max-width: 992px) {
+@media (max-width: 768px) {
     .sidebar {
         position: fixed;
         left: -100%;
@@ -1304,9 +1297,6 @@ p {
     }
     .main-content {
         padding: var(--space-md);
-    }
-    .navbar-brand .brand-name {
-        display: none;
     }
     .navbar-nav {
         display: none;

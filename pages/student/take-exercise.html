@@ -9,10 +9,7 @@
 <body>
     <header class="site-header">
         <nav class="navbar">
-            <a href="../../index.html" class="navbar-brand">
-                <span class="logo-icon" aria-hidden="true">🥝</span>
-                <span class="brand-name">Kewi Learning</span>
-            </a>
+            <a href="../../index.html" class="navbar-brand"><span class="logo-icon" aria-hidden="true">🥝</span><span>Kewi Learning</span></a>
             <div class="navbar-actions">
                 <span id="nav-user-display" class="text-sm fw-semibold"></span>
                 <a href="#" id="nav-logout-btn" class="btn btn-ghost btn-sm">Logout</a>
@@ -33,6 +30,13 @@
     <script>
         let currentExercise = null;
         let answers = {};
+
+        function extractYouTubeId(url) {
+        // Handles youtube.com/watch?v=, youtu.be/, /embed/, /shorts/
+            const regex = /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
             if (!requireAuth(ROLE_STUDENT)) return;
@@ -65,6 +69,7 @@
         function renderExercise(area) {
             const ex = currentExercise;
             const isReading = ex.type === EXERCISE_TYPE_READING && ex.passage;
+            const isVideo = ex.type === EXERCISE_TYPE_VIDEO && ex.video;
 
             let header = `
                 <div class="page-header mb-lg">
@@ -128,7 +133,33 @@
                         </div>
                     </div>
                 `;
-            } else {
+            } else if (isVideo) {
+                let url = escapeHtml(ex.video);
+                console.log(url);
+                let id = extractYouTubeId(url);
+                console.log(id);
+
+
+                area.innerHTML = header + navHtml + `
+                    <div class="video-layout">
+                        <div class="video-learning">
+                            <h3>🎥 Video Learning</h3>
+                            <div style="white-space:pre-wrap;">
+                                <iframe width="500" height="300"
+                                src="https://www.youtube.com/embed/${id}"
+                                frameborder="0" allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                        <div class="video-questions">
+                            ${questionsHtml}
+                            <div class="mt-lg">
+                                <button class="btn btn-primary btn-lg btn-block" onclick="submitExercise()">Submit Answers</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else{
                 area.innerHTML = header + navHtml + `
                     <div class="flex-col gap-lg" style="max-width:700px;">
                         ${questionsHtml}
