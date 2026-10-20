@@ -218,10 +218,19 @@
                                 ? "block"
                                 : "none";
                     });
+                document
+                    .getElementById("type")
+                    .addEventListener("change", (e) => {
+                        document.getElementById("video-group").style.display =
+                            e.target.value === EXERCISE_TYPE_VIDEO
+                                ? "block"
+                                : "none";
+                    });
 
                 function addQuestion() {
                     questionCount++;
                     const id = "q_" + questionCount;
+                    const type = document.getElementById("type").value;
                     const html = `
                     <div class="card mb-md" id="question-block-${questionCount}" data-qid="${id}">
                         <div class="card-body">
@@ -236,9 +245,9 @@
                             <div class="form-group">
                                 <label class="form-label">Type</label>
                                 <select class="form-control q-type">
-                                    <option value="multiple_choice">Multiple Choice</option>
-                                    <option value="true_false">True / False</option>
-                                    <option value="fill_blank">Fill in the Blank</option>
+                                    <option value="multiple_choice" ${type === "multiple_choice" ? "selected" : ""}>Multiple Choice</option>
+                                    <option value="true_false" ${type === "true_false" ? "selected" : ""}>True / False</option>
+                                    <option value="fill_blank" ${type === "fill_blank" ? "selected" : ""}>Fill in the Blank</option>
                                 </select>
                             </div>
                             <div class="q-options-area">
@@ -250,6 +259,10 @@
                             <div class="form-group">
                                 <label class="form-label">Correct Answer *</label>
                                 <input type="text" class="form-control q-answer" required placeholder="Exact correct answer">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Explanation</label>
+                                <textarea class="form-control q-explain" rows="2"></textarea>
                             </div>
                         </div>
                     </div>
@@ -284,6 +297,9 @@
                             const answer = block
                                 .querySelector(".q-answer")
                                 .value.trim();
+                            const explain = block
+                                .querySelector(".q-explain")
+                                .value.trim();
                             const optionsRaw = block
                                 .querySelector(".q-options")
                                 .value.trim();
@@ -292,6 +308,7 @@
                                 text,
                                 type,
                                 correctAnswer: answer,
+                                explanation: explain,
                             };
                             if (type === "multiple_choice" && optionsRaw) {
                                 q.options = optionsRaw
@@ -328,6 +345,9 @@
                                 document
                                     .getElementById("passage")
                                     .value.trim() || null,
+                            video:
+                                document.getElementById("video").value.trim() ||
+                                null,
                             questions,
                             createdBy: user.id,
                         };

@@ -90,10 +90,10 @@
                     startTimer(currentExercise.timeLimit);
             });
 
-            function renderExercise(area) {
-                const ex = currentExercise;
-                const isReading =
-                    ex.type === EXERCISE_TYPE_READING && ex.passage;
+        function renderExercise(area) {
+            const ex = currentExercise;
+            const isReading = ex.type === EXERCISE_TYPE_READING && ex.passage;
+            const isVideo = ex.type === EXERCISE_TYPE_VIDEO && ex.video;
 
                 let header = `
                 <div class="page-header mb-lg">
@@ -187,11 +187,34 @@
                         </div>
                     </div>
                 `;
-                } else {
-                    area.innerHTML =
-                        header +
-                        navHtml +
-                        `
+            } else if (isVideo) {
+                let url = escapeHtml(ex.video);
+                console.log(url);
+                let id = extractYouTubeId(url);
+                console.log(id);
+
+
+                area.innerHTML = header + navHtml + `
+                    <div class="video-layout">
+                        <div class="video-learning">
+                            <h3>🎥 Video Learning</h3>
+                            <div style="white-space:pre-wrap;">
+                                <iframe width="500" height="300"
+                                src="https://www.youtube.com/embed/${id}"
+                                frameborder="0" allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                        <div class="video-questions">
+                            ${questionsHtml}
+                            <div class="mt-lg">
+                                <button class="btn btn-primary btn-lg btn-block" onclick="submitExercise()">Submit Answers</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else{
+                area.innerHTML = header + navHtml + `
                     <div class="flex-col gap-lg" style="max-width:700px;">
                         ${questionsHtml}
                         <button class="btn btn-primary btn-lg" onclick="submitExercise()">Submit Answers</button>
