@@ -9,10 +9,10 @@
     <body>
         <header class="site-header">
             <nav class="navbar">
-                <a href="../../index.html" class="navbar-brand"
-                    ><span class="logo-icon" aria-hidden="true">🥝</span
-                    ><span>Kewi Learning</span></a
-                >
+                <a href="../../index.html" class="navbar-brand">
+                    <span class="logo-icon" aria-hidden="true">🥝</span>
+                    <span class="brand-name">Kewi Learning</span>
+                </a>
                 <div class="navbar-actions">
                     <span
                         id="nav-user-display"
@@ -97,7 +97,7 @@
                                 rows="2"
                             ></textarea>
                         </div>
-                        <div class="grid-3">
+                        <div class="grid-4">
                             <div class="form-group">
                                 <label class="form-label" for="type"
                                     >Exercise Type *</label
@@ -131,6 +131,18 @@
                                     max="100"
                                 />
                             </div>
+                            <div class="form-group">
+                                <label class="form-label" for="time-limit"
+                                    >Time limit</label
+                                >
+                                <input
+                                    type="number"
+                                    id="time-limit"
+                                    class="form-control"
+                                    value="0"
+                                    min="0"
+                                />
+                            </div>
                         </div>
                         <div
                             class="form-group"
@@ -146,23 +158,6 @@
                                 rows="8"
                                 placeholder="Paste the reading text here..."
                             ></textarea>
-                        </div>
-
-                        <!-- Elton added this div -->
-                        <div
-                            class="form-group"
-                            id="video-group"
-                            style="display: none"
-                        >
-                            <label class="form-label" for="video"
-                                >Paste Video URL here (must use the link in
-                                share)</label
-                            >
-                            <input
-                                type="text"
-                                id="video"
-                                class="form-control"
-                            />
                         </div>
 
                         <h3 class="mt-lg mb-md">Questions</h3>
@@ -342,6 +337,10 @@
                                 parseInt(
                                     document.getElementById("points").value,
                                 ) || DEFAULT_POINTS_PER_QUESTION,
+                            timeLimit:
+                                parseInt(
+                                    document.getElementById("time-limit").value,
+                                ) || 0,
                             passage:
                                 document
                                     .getElementById("passage")
